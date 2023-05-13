@@ -32,7 +32,7 @@
         <div class="beer-item" @click="goToBeer(beer.id)">
           <div class="beer-info">
             <p>
-              {{ beer.name }} - <strong>{{ beer.price.toFixed(2) }}€</strong>
+              <strong>{{ beer.name }}</strong> - {{ beer.price.toFixed(2) }}€
             </p>
           </div>
           <div class="beer-image">
