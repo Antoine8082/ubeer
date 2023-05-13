@@ -1,31 +1,32 @@
 <template>
   <div>
-    <select v-model="selectedBrewery" @change="filterBeers">
-      <option value="">Liste des brasseries</option>
-      <option
-        v-for="brewery in breweries"
-        :key="brewery.id"
-        :value="brewery.id"
-      >
-        {{ brewery.name }}
-      </option>
-    </select>
+    <div class="filter-container">
+      <select v-model="selectedBrewery" @change="filterBeers">
+        <option value="">Liste des brasseries</option>
+        <option
+          v-for="brewery in breweries"
+          :key="brewery.id"
+          :value="brewery.id"
+        >
+          {{ brewery.name }}
+        </option>
+      </select>
 
-    <div>
-      <input
-        type="number"
-        placeholder="Min price"
-        v-model="minPrice"
-        @input="filterBeers"
-      />
-      <input
-        type="number"
-        placeholder="Max price"
-        v-model="maxPrice"
-        @input="filterBeers"
-      />
+      <div class="price-filters">
+        <input
+          type="number"
+          placeholder="Min price"
+          v-model="minPrice"
+          @input="filterBeers"
+        />
+        <input
+          type="number"
+          placeholder="Max price"
+          v-model="maxPrice"
+          @input="filterBeers"
+        />
+      </div>
     </div>
-
     <ul>
       <li v-for="beer in filteredBeers" :key="beer.id">
         {{ beer.name }} - {{ beer.price.toFixed(2) }}€
@@ -98,5 +99,16 @@ export default {
 </script>
 
 <style scoped>
-/* styles du composant BeerList */
+.filter-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.price-filters {
+  display: flex;
+  gap: 10px;
+  margin-left: 50px;
+}
 </style>
