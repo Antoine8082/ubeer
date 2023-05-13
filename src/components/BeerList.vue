@@ -1,7 +1,7 @@
 <template>
   <div>
-    <select v-model="selectedBrewery" @change="filterByBrewery">
-      <option value="">Select a brewery</option>
+    <select v-model="selectedBrewery" @change="filterBeers">
+      <option value="">Liste des brasseries</option>
       <option
         v-for="brewery in breweries"
         :key="brewery.id"
@@ -16,18 +16,20 @@
         type="number"
         placeholder="Min price"
         v-model="minPrice"
-        @input="filterByPrice"
+        @input="filterBeers"
       />
       <input
         type="number"
         placeholder="Max price"
         v-model="maxPrice"
-        @input="filterByPrice"
+        @input="filterBeers"
       />
     </div>
 
     <ul>
-      <li v-for="beer in filteredBeers" :key="beer.id">{{ beer.name }}</li>
+      <li v-for="beer in filteredBeers" :key="beer.id">
+        {{ beer.name }} - {{ beer.price.toFixed(2) }}€
+      </li>
     </ul>
   </div>
 </template>
@@ -41,7 +43,6 @@ export default {
     return {
       beers: [],
       breweries: [],
-      prices: [],
       filteredBeers: [],
       selectedBrewery: "",
       minPrice: null,
@@ -57,39 +58,30 @@ export default {
         console.error("Error fetching breweries:", error.message);
       }
     },
-    async fetchPrices() {
-      try {
-        const response = await api.getPrices();
-        this.prices = response.data;
-      } catch (error) {
-        console.error("Error fetching prices:", error.message);
-      }
-    },
-    filterByBrewery() {
+    filterBeers() {
+      let filtered = this.beers;
       if (this.selectedBrewery) {
-        this.filteredBeers = this.beers.filter(
+        filtered = filtered.filter(
           (beer) => beer.breweryId === this.selectedBrewery
         );
-      } else {
-        this.filteredBeers = this.beers;
       }
-    },
-    filterByPrice() {
-      this.filteredBeers = this.beers.filter((beer) => {
-        const beerPrice = parseFloat(beer.price);
-        const minPrice = parseFloat(this.minPrice);
-        const maxPrice = parseFloat(this.maxPrice);
 
-        if (isNaN(minPrice) && isNaN(maxPrice)) {
-          return true; // Si aucune valeur n'est spécifiée, afficher toutes les bières
-        } else if (isNaN(minPrice)) {
-          return beerPrice <= maxPrice;
-        } else if (isNaN(maxPrice)) {
-          return beerPrice >= minPrice;
-        } else {
-          return beerPrice >= minPrice && beerPrice <= maxPrice;
-        }
-      });
+      const minPrice = parseFloat(this.minPrice);
+      const maxPrice = parseFloat(this.maxPrice);
+      if (!isNaN(minPrice) || !isNaN(maxPrice)) {
+        filtered = filtered.filter((beer) => {
+          const beerPrice = parseFloat(beer.price);
+          if (isNaN(minPrice)) {
+            return beerPrice <= maxPrice;
+          } else if (isNaN(maxPrice)) {
+            return beerPrice >= minPrice;
+          } else {
+            return beerPrice >= minPrice && beerPrice <= maxPrice;
+          }
+        });
+      }
+
+      this.filteredBeers = filtered;
     },
   },
   async created() {
@@ -98,7 +90,6 @@ export default {
       this.beers = response.data;
       this.filteredBeers = this.beers;
       await this.fetchBreweries();
-      await this.fetchPrices();
     } catch (error) {
       console.error("Error fetching beers:", error.message);
     }
@@ -107,5 +98,5 @@ export default {
 </script>
 
 <style scoped>
-/* Les styles du composant BeerList seront ici */
+/* styles du composant BeerList */
 </style>
