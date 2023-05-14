@@ -25,7 +25,7 @@
           </div>
         </li>
       </ul>
-      <p>Total: {{ totalPrice.toFixed(2) }}€</p>
+      <p>Total: {{ calculatedTotalPrice.toFixed(2) }}€</p>
       <button @click="closeModal">Fermer</button>
     </div>
   </div>
@@ -57,12 +57,14 @@ export default {
   data() {
     return {
       cartItemsCopy: [],
+      calculatedTotalPrice: 0,
     };
   },
   watch: {
     cartItems: {
       handler(newCartItems) {
         this.cartItemsCopy = JSON.parse(JSON.stringify(newCartItems));
+        this.updateTotalPrice();
       },
       immediate: true,
       deep: true,
@@ -77,28 +79,41 @@ export default {
       if (index !== -1) {
         this.cartItemsCopy[index].quantity++;
         this.$emit("updateCartItems", this.cartItemsCopy);
+        this.updateTotalPrice();
       }
     },
-
     decrementQuantity(beer) {
       const index = this.cartItemsCopy.findIndex((item) => item.id === beer.id);
       if (index !== -1 && this.cartItemsCopy[index].quantity > 1) {
         this.cartItemsCopy[index].quantity--;
         this.$emit("updateCartItems", this.cartItemsCopy);
+        this.updateTotalPrice();
       }
     },
-
     removeFromCart(beer) {
       const index = this.cartItemsCopy.findIndex((item) => item.id === beer.id);
       if (index !== -1) {
         this.cartItemsCopy.splice(index, 1);
         this.$emit("updateCartItems", this.cartItemsCopy);
+        this.updateTotalPrice();
       }
     },
+
+    updateTotalPrice() {
+      this.calculatedTotalPrice = this.cartItemsCopy.reduce(
+        (total, beer) => total + beer.price * beer.quantity,
+        0
+      );
+    },
+  },
+  created() {
+    this.cartItemsCopy = JSON.parse(JSON.stringify(this.cartItems));
+    this.updateTotalPrice();
   },
 };
 </script>
-    
+
+
     <style scoped>
 .modal {
   position: fixed;
