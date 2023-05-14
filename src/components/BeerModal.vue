@@ -44,15 +44,15 @@ export default {
 </script>
     
     <style scoped>
-.beer-modal {
-}
+/* .beer-modal {
+} */
 
 .beer-image img {
   width: 100px;
 }
 
-.beer-details {
-}
+/* .beer-details {
+} */
 
 .quantity-container {
   margin-top: 10px;

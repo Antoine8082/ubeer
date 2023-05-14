@@ -1,7 +1,20 @@
 <template>
   <div id="app">
     <div class="logo-container" @click="resetFilters">
-      <img src="@/assets/logo-ubeer.png" alt="Ubeer Logo" />
+      <div class="logo-left">
+        <img
+          class="logo-ubeer"
+          src="@/assets/logo-ubeer.png"
+          alt="Ubeer Logo"
+        />
+      </div>
+      <div class="logo-right">
+        <img
+          class="logo-centre"
+          src="@/assets/logo-centre.png"
+          alt="Logo Centre"
+        />
+      </div>
       <div class="cart-icon" @click="openCartModal">
         <img src="@/assets/logo-panier.png" alt="Panier Logo" />
       </div>
@@ -10,6 +23,7 @@
       ref="beerList"
       @addToCart="addToCart"
       @updateCartItems="updateCartItems"
+      style="margin-left: 10px"
     />
     <CartModal
       v-model:cartItems="cartItems"
@@ -78,6 +92,20 @@ export default {
 .logo-container img {
   max-width: 130px;
 }
+.logo-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.logo-centre {
+  width: 50%;
+  max-width: none !important;
+}
+
+.logo-left {
+  display: flex;
+  align-items: center;
+}
 
 .cart-icon {
   display: flex;
@@ -88,5 +116,6 @@ export default {
 
 .cart-icon img {
   max-width: 50px;
+  margin-right: 20px;
 }
 </style>
