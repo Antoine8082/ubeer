@@ -12,7 +12,7 @@
     </div>
   </div>
 </template>
-    
+  
   <script>
 export default {
   name: "CartModal",
@@ -21,6 +21,11 @@ export default {
       type: Array,
       default: () => [],
       required: true,
+      // Utiliser le modèle pour permettre la mise à jour bidirectionnelle
+      model: {
+        prop: "cartItems",
+        event: "update:cartItems",
+      },
     },
     totalPrice: {
       type: Number,
@@ -39,7 +44,7 @@ export default {
   },
 };
 </script>
-    
+  
   <style scoped>
 .modal {
   position: fixed;

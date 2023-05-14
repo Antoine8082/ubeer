@@ -8,10 +8,11 @@
     </div>
     <BeerList ref="beerList" @addToCart="addToCart" />
     <CartModal
-      :cartItems="cartItems"
+      v-model:cartItems="cartItems"
       :totalPrice="totalPrice"
       :showModal="showCartModal"
       @closeModal="closeCartModal"
+      @update:cartItems="updateCartItems"
     />
   </div>
 </template>
@@ -52,6 +53,9 @@ export default {
         (total, beer) => total + beer.price,
         0
       );
+    },
+    updateCartItems(items) {
+      this.cartItems = items;
     },
   },
 };

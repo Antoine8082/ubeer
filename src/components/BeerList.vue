@@ -69,11 +69,18 @@
         </div>
       </div>
     </div>
+    <CartModal
+      v-model:cartItems="cartItems"
+      :totalPrice="totalPrice"
+      :showModal="showCartModal"
+      @closeModal="closeCartModal"
+    />
   </div>
 </template>
 
 <script>
 import api from "@/services/api";
+// import CartModal from "@/components/CartModal.vue";
 
 export default {
   name: "BeerList",
@@ -167,6 +174,8 @@ export default {
       this.cartItems.push(beerToAdd);
       this.calculateTotalPrice();
       console.log("Added to cart:", beerToAdd);
+
+      this.$emit("update:cartItems", this.cartItems);
     },
 
     removeFromCart(beer) {
