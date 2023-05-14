@@ -4,7 +4,7 @@
 
 ## Install & use (local):
 
-### In "api.js":
+### In 'api.js' (src/services/api.js):
 Switch "baseURL" from:
 
      baseURL: 'https://frozen-lake-57865.herokuapp.com/api',
