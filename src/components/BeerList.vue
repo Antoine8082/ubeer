@@ -248,12 +248,17 @@ export default {
   margin-bottom: 20px;
 }
 
-.price-filters {
-  display: flex;
-  gap: 10px;
-  margin-left: 50px;
-}
+@media screen and (max-width: 600px) {
+  .price-filters {
+    flex-direction: column;
+  }
 
+  .price-filters {
+    display: flex;
+    gap: 10px;
+    margin-left: 50px;
+  }
+}
 .beer-item {
   display: flex;
   align-items: center;
