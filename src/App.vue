@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <div class="logo-container">
+    <div class="logo-container" @click="resetFilters">
       <img src="@/assets/logo-ubeer.png" alt="Ubeer Logo" />
     </div>
-    <BeerList />
+    <BeerList ref="beerList" />
   </div>
 </template>
 
@@ -14,6 +14,11 @@ export default {
   name: "App",
   components: {
     BeerList,
+  },
+  methods: {
+    resetFilters() {
+      this.$refs.beerList.resetFilters();
+    },
   },
 };
 </script>
