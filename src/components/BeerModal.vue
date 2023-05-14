@@ -17,8 +17,8 @@
     </div>
   </div>
 </template>
-  
-  <script>
+    
+    <script>
 export default {
   name: "BeerModal",
   props: {
@@ -42,8 +42,8 @@ export default {
   },
 };
 </script>
-  
-  <style scoped>
+    
+    <style scoped>
 .beer-modal {
 }
 
@@ -62,4 +62,4 @@ button {
   margin-top: 10px;
 }
 </style>
-  
+    

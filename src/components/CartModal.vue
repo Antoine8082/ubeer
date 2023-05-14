@@ -30,8 +30,8 @@
     </div>
   </div>
 </template>
-  
-  <script>
+    
+    <script>
 export default {
   name: "CartModal",
   props: {
@@ -96,8 +96,8 @@ export default {
   },
 };
 </script>
-  
-  <style scoped>
+    
+    <style scoped>
 .modal {
   position: fixed;
   top: 0;
@@ -140,4 +140,4 @@ export default {
   margin-top: 10px;
 }
 </style>
-  
+    
