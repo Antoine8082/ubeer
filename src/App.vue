@@ -16,7 +16,16 @@
         />
       </div>
       <div class="cart-icon" @click="openCartModal">
-        <img src="@/assets/logo-panier.png" alt="Panier Logo" />
+        <img
+          v-if="cartItems.length > 0"
+          :src="require('@/assets/logo-panier-full.png')"
+          alt="Panier plein"
+        />
+        <img
+          v-else
+          :src="require('@/assets/logo-panier.png')"
+          alt="Panier vide"
+        />
       </div>
     </div>
     <BeerList
@@ -71,7 +80,12 @@ export default {
         (total, beer) => total + beer.price,
         0
       );
+
+      if (this.totalPrice === 0) {
+        this.cartItems = [];
+      }
     },
+
     updateCartItems(items) {
       this.cartItems = items;
       this.calculateTotalPrice();

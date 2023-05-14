@@ -62,9 +62,10 @@
           <p class="brewery-address">{{ selectedBeer.brewery.address }}</p>
           <h3 class="beer-price">{{ selectedBeer.price.toFixed(2) }}€</h3>
           <div class="quantity">
-            <label for="quantity">Quantité:</label>
+            <label for="quantity" class="quantity-label">Quantité:</label>
             <input type="number" id="quantity" v-model="quantity" />
           </div>
+
           <button @click="addToCart(selectedBeer)">Ajouter au panier</button>
         </div>
       </div>
@@ -197,7 +198,11 @@ export default {
       }
 
       this.updateTotalPrice();
-      console.log("Added to cart:", beerToAdd);
+
+      this.quantity = 1;
+      this.selectedBeer = null;
+      this.showModal = false;
+
       this.$emit("updateCartItems", this.cartItems);
     },
 
