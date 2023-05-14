@@ -89,6 +89,7 @@ export default {
       selectedBeer: null,
       cartItems: [],
       totalPrice: 0,
+      quantity: 1,
     };
   },
   computed: {
@@ -153,9 +154,19 @@ export default {
       this.showModal = false;
     },
     addToCart(beer) {
-      this.cartItems.push(beer);
+      const beerToAdd = {
+        id: beer.id,
+        name: beer.name,
+        description: beer.description,
+        imageUrl: beer.imageUrl,
+        breweryId: beer.breweryId,
+        price: beer.price,
+        quantity: this.quantity,
+      };
+
+      this.cartItems.push(beerToAdd);
       this.calculateTotalPrice();
-      console.log("Added to cart:", beer);
+      console.log("Added to cart:", beerToAdd);
     },
 
     removeFromCart(beer) {
