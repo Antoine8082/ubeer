@@ -1,46 +1,48 @@
 <template>
-  <div id="app">
-    <div class="logo-container" @click="resetFilters">
-      <div class="logo-left">
-        <img
-          class="logo-ubeer"
-          src="@/assets/logo-ubeer.png"
-          alt="Ubeer Logo"
-        />
+  <div id="app" class="site-background">
+    <div id="app">
+      <div class="logo-container" @click="resetFilters">
+        <div class="logo-left">
+          <img
+            class="logo-ubeer"
+            src="@/assets/logo-ubeer.png"
+            alt="Ubeer Logo"
+          />
+        </div>
+        <div class="logo-right">
+          <img
+            class="logo-centre"
+            src="@/assets/logo-centre.png"
+            alt="Logo Centre"
+          />
+        </div>
+        <div class="cart-icon" @click="openCartModal">
+          <img
+            v-if="cartItems.length > 0"
+            :src="require('@/assets/logo-panier-full.png')"
+            alt="Panier plein"
+          />
+          <img
+            v-else
+            :src="require('@/assets/logo-panier.png')"
+            alt="Panier vide"
+          />
+        </div>
       </div>
-      <div class="logo-right">
-        <img
-          class="logo-centre"
-          src="@/assets/logo-centre.png"
-          alt="Logo Centre"
-        />
-      </div>
-      <div class="cart-icon" @click="openCartModal">
-        <img
-          v-if="cartItems.length > 0"
-          :src="require('@/assets/logo-panier-full.png')"
-          alt="Panier plein"
-        />
-        <img
-          v-else
-          :src="require('@/assets/logo-panier.png')"
-          alt="Panier vide"
-        />
-      </div>
+      <BeerList
+        ref="beerList"
+        @addToCart="addToCart"
+        @updateCartItems="updateCartItems"
+        style="margin-left: 10px"
+      />
+      <CartModal
+        v-model:cartItems="cartItems"
+        :totalPrice="totalPrice"
+        :showModal="showCartModal"
+        @closeModal="closeCartModal"
+        @update:cartItems="updateCartItems"
+      />
     </div>
-    <BeerList
-      ref="beerList"
-      @addToCart="addToCart"
-      @updateCartItems="updateCartItems"
-      style="margin-left: 10px"
-    />
-    <CartModal
-      v-model:cartItems="cartItems"
-      :totalPrice="totalPrice"
-      :showModal="showCartModal"
-      @closeModal="closeCartModal"
-      @update:cartItems="updateCartItems"
-    />
   </div>
 </template>
 
@@ -131,5 +133,11 @@ export default {
 .cart-icon img {
   max-width: 50px;
   margin-right: 20px;
+}
+.site-background {
+  background-image: url("@/assets/logo-back-2.png");
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 </style>
