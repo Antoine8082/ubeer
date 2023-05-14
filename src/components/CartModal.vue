@@ -76,16 +76,20 @@ export default {
       const index = this.cartItemsCopy.findIndex((item) => item.id === beer.id);
       if (index !== -1) {
         this.cartItemsCopy[index].quantity++;
-        this.updateCartItems(this.cartItemsCopy);
+        this.$emit("update-cart-items", this.cartItemsCopy);
+        this.$emit("update-total-price");
       }
     },
+
     decrementQuantity(beer) {
       const index = this.cartItemsCopy.findIndex((item) => item.id === beer.id);
       if (index !== -1 && this.cartItemsCopy[index].quantity > 1) {
         this.cartItemsCopy[index].quantity--;
-        this.updateCartItems(this.cartItemsCopy);
+        this.$emit("update-cart-items", this.cartItemsCopy);
+        this.$emit("update-total-price");
       }
     },
+
     removeFromCart(beer) {
       const index = this.cartItemsCopy.findIndex((item) => item.id === beer.id);
       if (index !== -1) {

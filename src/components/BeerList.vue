@@ -70,7 +70,7 @@
       </div>
     </div>
     <CartModal
-      :cartItems="cartItems"
+      v-model:cartItems="cartItems"
       :totalPrice="totalPrice"
       :showModal="showCartModal"
       @close-modal="closeCartModal"
@@ -78,6 +78,7 @@
       @decrement-quantity="decrementQuantity"
       @remove-from-cart="removeFromCart"
       @update-cart-items="updateCartItems"
+      @update-total-price="updateTotalPrice"
     />
   </div>
 </template>
@@ -120,6 +121,10 @@ export default {
     },
   },
   methods: {
+    updateTotalPrice() {
+      this.totalPrice = this.calculateTotalPrice();
+    },
+
     updateCartItems(items) {
       this.cartItems = items;
       this.calculateTotalPrice();
@@ -211,8 +216,8 @@ export default {
       this.filterBeers();
     },
     calculateTotalPrice() {
-      this.totalPrice = this.cartItems.reduce(
-        (total, beer) => total + beer.price,
+      return this.cartItems.reduce(
+        (total, beer) => total + beer.price * beer.quantity,
         0
       );
     },
