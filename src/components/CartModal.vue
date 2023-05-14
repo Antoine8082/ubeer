@@ -25,13 +25,13 @@
           </div>
         </li>
       </ul>
-      <p>Total: {{ calculateTotalPrice().toFixed(2) }}€</p>
+      <p>Total: {{ totalPrice.toFixed(2) }}€</p>
       <button @click="closeModal">Fermer</button>
     </div>
   </div>
 </template>
-    
-    <script>
+  
+  <script>
 export default {
   name: "CartModal",
   props: {
@@ -59,8 +59,14 @@ export default {
       cartItemsCopy: [],
     };
   },
-  created() {
-    this.cartItemsCopy = JSON.parse(JSON.stringify(this.cartItems));
+  watch: {
+    cartItems: {
+      handler(newCartItems) {
+        this.cartItemsCopy = JSON.parse(JSON.stringify(newCartItems));
+      },
+      immediate: true,
+      deep: true,
+    },
   },
   methods: {
     closeModal() {
@@ -86,12 +92,6 @@ export default {
         this.cartItemsCopy.splice(index, 1);
         this.updateCartItems(this.cartItemsCopy);
       }
-    },
-    calculateTotalPrice() {
-      return this.cartItemsCopy.reduce(
-        (total, beer) => total + beer.price * beer.quantity,
-        0
-      );
     },
   },
 };

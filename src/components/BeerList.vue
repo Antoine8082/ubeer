@@ -70,10 +70,14 @@
       </div>
     </div>
     <CartModal
-      v-model:cartItems="cartItems"
+      :cartItems="cartItems"
       :totalPrice="totalPrice"
       :showModal="showCartModal"
-      @closeModal="closeCartModal"
+      @close-modal="closeCartModal"
+      @increment-quantity="incrementQuantity"
+      @decrement-quantity="decrementQuantity"
+      @remove-from-cart="removeFromCart"
+      @update-cart-items="updateCartItems"
     />
   </div>
 </template>
@@ -166,51 +170,31 @@ export default {
     },
 
     addToCart(beer) {
-      const existingBeer = this.cartItems.find((item) => item.id === beer.id);
+      const beerToAdd = {
+        id: beer.id,
+        name: beer.name,
+        description: beer.description,
+        imageUrl: beer.imageUrl,
+        breweryId: beer.breweryId,
+        price: beer.price,
+        quantity: this.quantity,
+      };
+
+      const existingBeer = this.cartItems.find(
+        (item) => item.id === beerToAdd.id
+      );
       if (existingBeer) {
         existingBeer.quantity += this.quantity;
-      } else {
-        const beerToAdd = {
-          id: beer.id,
-          name: beer.name,
-          description: beer.description,
-          imageUrl: beer.imageUrl,
-          breweryId: beer.breweryId,
-          price: beer.price,
-          quantity: this.quantity,
-        };
-        this.cartItems.push(beerToAdd);
+        this.calculateTotalPrice();
+        return;
       }
+
+      this.cartItems.push(beerToAdd);
       this.calculateTotalPrice();
-      this.updateCartItems(this.cartItems);
+      console.log("Added to cart:", beerToAdd);
+      // this.updateCartItems(this.cartItems);
+      this.$emit("updateCartItems", this.cartItems);
     },
-
-    // addToCart(beer) {
-    //   const beerToAdd = {
-    //     id: beer.id,
-    //     name: beer.name,
-    //     description: beer.description,
-    //     imageUrl: beer.imageUrl,
-    //     breweryId: beer.breweryId,
-    //     price: beer.price,
-    //     quantity: this.quantity,
-    //   };
-
-    //   const existingBeer = this.cartItems.find(
-    //     (item) => item.id === beerToAdd.id
-    //   );
-    //   if (existingBeer) {
-    //     existingBeer.quantity += this.quantity;
-    //     this.calculateTotalPrice();
-    //     return;
-    //   }
-
-    //   this.cartItems.push(beerToAdd);
-    //   this.calculateTotalPrice();
-    //   console.log("Added to cart:", beerToAdd);
-
-    //   this.$emit("updateCartItems", this.cartItems);
-    // },
 
     removeFromCart(beer) {
       const index = this.cartItems.findIndex((item) => item.id === beer.id);
