@@ -21,11 +21,10 @@ export default {
       type: Array,
       default: () => [],
       required: true,
-      // Utiliser le modèle pour permettre la mise à jour bidirectionnelle
-      model: {
-        prop: "cartItems",
-        event: "update:cartItems",
-      },
+    },
+    updateCartItems: {
+      type: Function,
+      required: true,
     },
     totalPrice: {
       type: Number,

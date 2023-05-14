@@ -171,11 +171,20 @@ export default {
         quantity: this.quantity,
       };
 
+      const existingBeer = this.cartItems.find(
+        (item) => item.id === beerToAdd.id
+      );
+      if (existingBeer) {
+        existingBeer.quantity += this.quantity;
+        this.calculateTotalPrice();
+        return;
+      }
+
       this.cartItems.push(beerToAdd);
       this.calculateTotalPrice();
       console.log("Added to cart:", beerToAdd);
 
-      this.$emit("update:cartItems", this.cartItems);
+      this.$emit("updateCartItems", this.cartItems);
     },
 
     removeFromCart(beer) {

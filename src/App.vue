@@ -6,7 +6,11 @@
         <img src="@/assets/logo-panier.png" alt="Panier Logo" />
       </div>
     </div>
-    <BeerList ref="beerList" @addToCart="addToCart" />
+    <BeerList
+      ref="beerList"
+      @addToCart="addToCart"
+      @updateCartItems="updateCartItems"
+    />
     <CartModal
       v-model:cartItems="cartItems"
       :totalPrice="totalPrice"
@@ -56,6 +60,7 @@ export default {
     },
     updateCartItems(items) {
       this.cartItems = items;
+      this.calculateTotalPrice();
     },
   },
 };
