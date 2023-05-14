@@ -77,8 +77,7 @@
       @increment-quantity="incrementQuantity"
       @decrement-quantity="decrementQuantity"
       @remove-from-cart="removeFromCart"
-      @update-cart-items="updateCartItems"
-      @update-total-price="updateTotalPrice"
+      @update-cart-items="updateTotalPrice"
     />
   </div>
 </template>
@@ -122,7 +121,10 @@ export default {
   },
   methods: {
     updateTotalPrice() {
-      this.totalPrice = this.calculateTotalPrice();
+      this.totalPrice = this.cartItems.reduce(
+        (total, beer) => total + beer.price * beer.quantity,
+        0
+      );
     },
 
     updateCartItems(items) {
@@ -190,14 +192,12 @@ export default {
       );
       if (existingBeer) {
         existingBeer.quantity += this.quantity;
-        this.calculateTotalPrice();
-        return;
+      } else {
+        this.cartItems.push(beerToAdd);
       }
 
-      this.cartItems.push(beerToAdd);
-      this.calculateTotalPrice();
+      this.updateTotalPrice();
       console.log("Added to cart:", beerToAdd);
-      // this.updateCartItems(this.cartItems);
       this.$emit("updateCartItems", this.cartItems);
     },
 

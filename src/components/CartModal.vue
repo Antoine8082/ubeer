@@ -76,8 +76,7 @@ export default {
       const index = this.cartItemsCopy.findIndex((item) => item.id === beer.id);
       if (index !== -1) {
         this.cartItemsCopy[index].quantity++;
-        this.$emit("update-cart-items", this.cartItemsCopy);
-        this.$emit("update-total-price");
+        this.$emit("updateCartItems", this.cartItemsCopy);
       }
     },
 
@@ -85,8 +84,7 @@ export default {
       const index = this.cartItemsCopy.findIndex((item) => item.id === beer.id);
       if (index !== -1 && this.cartItemsCopy[index].quantity > 1) {
         this.cartItemsCopy[index].quantity--;
-        this.$emit("update-cart-items", this.cartItemsCopy);
-        this.$emit("update-total-price");
+        this.$emit("updateCartItems", this.cartItemsCopy);
       }
     },
 
@@ -94,7 +92,7 @@ export default {
       const index = this.cartItemsCopy.findIndex((item) => item.id === beer.id);
       if (index !== -1) {
         this.cartItemsCopy.splice(index, 1);
-        this.updateCartItems(this.cartItemsCopy);
+        this.$emit("updateCartItems", this.cartItemsCopy);
       }
     },
   },
