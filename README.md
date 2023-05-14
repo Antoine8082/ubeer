@@ -1,10 +1,25 @@
 # Architecture N-Tiers <EPSI 2023>
 ## _Ubeer Project -FRONTEND-_
+-----------------------------------
 
-## Install & use :
+## Install & use (local):
 
+### In "api.js":
+Switch "baseURL" from:
+
+     baseURL: 'https://frozen-lake-57865.herokuapp.com/api',
+     to:
+       // baseURL: 'http://localhost:3000/api', 
+       
+       
 ```sh
 npm install
 
 npm run serve
+```
+
+## Install & use (distant):
+
+```sh
+https://ubeer-antoine-ces-epsi.vercel.app/
 ```
