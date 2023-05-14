@@ -48,7 +48,7 @@
     <!-- // MODALE // -->
     <div v-if="showModal" class="modal" @click="closeModal">
       <div class="modal-content" @click.stop>
-        <div class="beer-image">
+        <div class="beer-image-modal">
           <img
             :src="selectedBeer.imageUrl"
             alt="Beer image"
@@ -209,6 +209,9 @@ export default {
 .beer-image {
   margin-right: 10px;
 }
+.beer-image-modal {
+  width: 300px;
+}
 
 .beer-image img {
   max-width: 50px;
@@ -236,6 +239,9 @@ export default {
 }
 
 .modal-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: #fff;
   padding: 20px;
   border-radius: 5px;
