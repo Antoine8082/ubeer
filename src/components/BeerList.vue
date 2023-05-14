@@ -87,6 +87,8 @@ export default {
       maxPrice: null,
       showModal: false,
       selectedBeer: null,
+      cartItems: [],
+      totalPrice: 0,
     };
   },
   computed: {
@@ -151,14 +153,30 @@ export default {
       this.showModal = false;
     },
     addToCart(beer) {
-      // Ajouter la bière au panier
+      this.cartItems.push(beer);
+      this.calculateTotalPrice();
       console.log("Added to cart:", beer);
+    },
+
+    removeFromCart(beer) {
+      const index = this.cartItems.findIndex((item) => item.id === beer.id);
+      if (index !== -1) {
+        this.cartItems.splice(index, 1);
+        this.calculateTotalPrice();
+        console.log("Removed from cart:", beer);
+      }
     },
     resetFilters() {
       this.selectedBrewery = "";
       this.minPrice = null;
       this.maxPrice = null;
       this.filterBeers();
+    },
+    calculateTotalPrice() {
+      this.totalPrice = this.cartItems.reduce(
+        (total, beer) => total + beer.price,
+        0
+      );
     },
   },
   async created() {
