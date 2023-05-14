@@ -27,16 +27,19 @@
         />
       </div>
     </div>
-    <ul>
+    <ul class="beer-list">
       <li v-for="beer in sortedBeers" :key="beer.id">
         <div class="beer-item" @click="goToBeer(beer.id)">
-          <div class="beer-info">
-            <p>
-              <strong>{{ beer.name }}</strong> - {{ beer.price.toFixed(2) }}€
-            </p>
-          </div>
           <div class="beer-image">
             <img :src="beer.imageUrl" alt="Beer image" />
+          </div>
+          <div class="beer-details">
+            <strong
+              ><p class="beer-name">{{ beer.name }}</p></strong
+            >
+          </div>
+          <div class="beer-price">
+            <p>{{ beer.price.toFixed(2) }}€</p>
           </div>
         </div>
       </li>
@@ -142,6 +145,7 @@ export default {
 
 .beer-item {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   padding: 10px;
   border: 1px solid #ccc;
@@ -149,13 +153,29 @@ export default {
   cursor: pointer;
   margin-bottom: 10px;
 }
-
+.beer-list {
+  list-style-type: none;
+  padding: 0;
+}
 .beer-info {
   display: flex;
   align-items: center;
 }
 
+.beer-image {
+  margin-right: 10px;
+}
+
 .beer-image img {
   max-width: 50px;
+  margin-right: 20px;
+}
+.beer-details {
+  flex-grow: 1;
+}
+
+.beer-price {
+  text-align: right;
 }
 </style>
+
