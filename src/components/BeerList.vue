@@ -116,6 +116,10 @@ export default {
     },
   },
   methods: {
+    updateCartItems(items) {
+      this.cartItems = items;
+      this.calculateTotalPrice();
+    },
     async fetchBreweries() {
       try {
         const response = await api.getBreweries();
@@ -160,32 +164,53 @@ export default {
       this.selectedBeer = null;
       this.showModal = false;
     },
-    addToCart(beer) {
-      const beerToAdd = {
-        id: beer.id,
-        name: beer.name,
-        description: beer.description,
-        imageUrl: beer.imageUrl,
-        breweryId: beer.breweryId,
-        price: beer.price,
-        quantity: this.quantity,
-      };
 
-      const existingBeer = this.cartItems.find(
-        (item) => item.id === beerToAdd.id
-      );
+    addToCart(beer) {
+      const existingBeer = this.cartItems.find((item) => item.id === beer.id);
       if (existingBeer) {
         existingBeer.quantity += this.quantity;
-        this.calculateTotalPrice();
-        return;
+      } else {
+        const beerToAdd = {
+          id: beer.id,
+          name: beer.name,
+          description: beer.description,
+          imageUrl: beer.imageUrl,
+          breweryId: beer.breweryId,
+          price: beer.price,
+          quantity: this.quantity,
+        };
+        this.cartItems.push(beerToAdd);
       }
-
-      this.cartItems.push(beerToAdd);
       this.calculateTotalPrice();
-      console.log("Added to cart:", beerToAdd);
-
-      this.$emit("updateCartItems", this.cartItems);
+      this.updateCartItems(this.cartItems);
     },
+
+    // addToCart(beer) {
+    //   const beerToAdd = {
+    //     id: beer.id,
+    //     name: beer.name,
+    //     description: beer.description,
+    //     imageUrl: beer.imageUrl,
+    //     breweryId: beer.breweryId,
+    //     price: beer.price,
+    //     quantity: this.quantity,
+    //   };
+
+    //   const existingBeer = this.cartItems.find(
+    //     (item) => item.id === beerToAdd.id
+    //   );
+    //   if (existingBeer) {
+    //     existingBeer.quantity += this.quantity;
+    //     this.calculateTotalPrice();
+    //     return;
+    //   }
+
+    //   this.cartItems.push(beerToAdd);
+    //   this.calculateTotalPrice();
+    //   console.log("Added to cart:", beerToAdd);
+
+    //   this.$emit("updateCartItems", this.cartItems);
+    // },
 
     removeFromCart(beer) {
       const index = this.cartItems.findIndex((item) => item.id === beer.id);

@@ -3,11 +3,29 @@
     <div class="modal-content" @click.stop>
       <h2>Mon Panier</h2>
       <ul>
-        <li v-for="item in cartItems" :key="item.id">
-          {{ item.name }} - {{ item.price.toFixed(2) }}€
+        <li v-for="beer in cartItemsCopy" :key="beer.id">
+          <div class="cart-item">
+            <div class="beer-details">
+              <h3>{{ beer.name }}</h3>
+              <p>{{ beer.price.toFixed(2) }}€</p>
+            </div>
+            <div class="beer-quantity">
+              <button
+                @click="decrementQuantity(beer)"
+                :disabled="beer.quantity === 1"
+              >
+                -
+              </button>
+              <span>{{ beer.quantity }}</span>
+              <button @click="incrementQuantity(beer)">+</button>
+            </div>
+            <button class="remove-button" @click="removeFromCart(beer)">
+              Supprimer
+            </button>
+          </div>
         </li>
       </ul>
-      <p>Total: {{ totalPrice.toFixed(2) }}€</p>
+      <p>Total: {{ calculateTotalPrice().toFixed(2) }}€</p>
       <button @click="closeModal">Fermer</button>
     </div>
   </div>
@@ -36,9 +54,44 @@ export default {
       default: false,
     },
   },
+  data() {
+    return {
+      cartItemsCopy: [],
+    };
+  },
+  created() {
+    this.cartItemsCopy = JSON.parse(JSON.stringify(this.cartItems));
+  },
   methods: {
     closeModal() {
       this.$emit("closeModal");
+    },
+    incrementQuantity(beer) {
+      const index = this.cartItemsCopy.findIndex((item) => item.id === beer.id);
+      if (index !== -1) {
+        this.cartItemsCopy[index].quantity++;
+        this.updateCartItems(this.cartItemsCopy);
+      }
+    },
+    decrementQuantity(beer) {
+      const index = this.cartItemsCopy.findIndex((item) => item.id === beer.id);
+      if (index !== -1 && this.cartItemsCopy[index].quantity > 1) {
+        this.cartItemsCopy[index].quantity--;
+        this.updateCartItems(this.cartItemsCopy);
+      }
+    },
+    removeFromCart(beer) {
+      const index = this.cartItemsCopy.findIndex((item) => item.id === beer.id);
+      if (index !== -1) {
+        this.cartItemsCopy.splice(index, 1);
+        this.updateCartItems(this.cartItemsCopy);
+      }
+    },
+    calculateTotalPrice() {
+      return this.cartItemsCopy.reduce(
+        (total, beer) => total + beer.price * beer.quantity,
+        0
+      );
     },
   },
 };
