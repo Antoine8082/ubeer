@@ -18,7 +18,7 @@ npm install
 npm run serve
 ```
 
-## Install & use (distant):
+## Use (distant):
 
 ```sh
 https://ubeer-antoine-ces-epsi.vercel.app/
