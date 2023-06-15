@@ -42,6 +42,11 @@
         @closeModal="closeCartModal"
         @update:cartItems="updateCartItems"
       />
+      <LoginModal
+        v-if="!loggedIn"
+        @login="login"
+        @closeModal="closeLoginModal"
+      />
     </div>
   </div>
 </template>
@@ -49,18 +54,23 @@
 <script>
 import BeerList from "@/components/BeerList.vue";
 import CartModal from "@/components/CartModal.vue";
+import LoginModal from "@/components/LoginModal.vue";
 
 export default {
   name: "App",
   components: {
     BeerList,
     CartModal,
+    LoginModal,
   },
   data() {
     return {
       cartItems: [],
       totalPrice: 0,
       showCartModal: false,
+      loggedIn: false,
+      username: "",
+      password: "",
     };
   },
   methods: {
@@ -91,6 +101,27 @@ export default {
     updateCartItems(items) {
       this.cartItems = items;
       this.calculateTotalPrice();
+    },
+
+    async login() {
+      try {
+        const user = await user.findOne({ where: { username: this.username } });
+        if (!user) {
+          alert("Invalid username or password");
+          return;
+        }
+
+        this.loggedIn = true;
+        this.closeLoginModal();
+      } catch (error) {
+        console.error(error);
+        alert("An error occurred during login");
+      }
+    },
+    closeLoginModal() {
+      this.username = "";
+      this.password = "";
+      this.$refs.loginModal.closeModal();
     },
   },
 };
