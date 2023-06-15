@@ -1,5 +1,3 @@
-import axios from 'axios',
-
 <template>
   <div class="login-modal">
     <h2>Login</h2>
@@ -33,16 +31,21 @@ export default {
   methods: {
     async login() {
       try {
-        await this.$axios.post("/api/users/login", {
-          username: this.username,
-          password: this.password,
-        });
-
-        this.username = "";
-        this.password = "";
+        let res = await fetch('http://localhost:3000/api/users/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ username: this.username, password: this.password })
+        })
+        res = await res.json()
+        this.username = res.username;
+        alert('Vous êtes connectés en tant que ' + this.username + ' !');
         this.error = "";
+        localStorage.setItem('user', JSON.stringify(res));
       } catch (error) {
         this.error = "Invalid username or password.";
+        alert('Utilisateur inconnu !')
         console.error(error);
       }
     },

@@ -102,22 +102,6 @@ export default {
       this.cartItems = items;
       this.calculateTotalPrice();
     },
-
-    async login() {
-      try {
-        const user = await user.findOne({ where: { username: this.username } });
-        if (!user) {
-          alert("Invalid username or password");
-          return;
-        }
-
-        this.loggedIn = true;
-        this.closeLoginModal();
-      } catch (error) {
-        console.error(error);
-        alert("An error occurred during login");
-      }
-    },
     closeLoginModal() {
       this.username = "";
       this.password = "";
