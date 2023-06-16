@@ -31,7 +31,7 @@ export default {
   methods: {
     async login() {
       try {
-        let res = await fetch('http://localhost:3000/api/users/login', {
+        let res = await fetch('https://frozen-lake-57865.herokuapp.com/api/users/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
